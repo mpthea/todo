@@ -1,0 +1,69 @@
+package com.example.todolist.controllers;
+
+import com.example.todolist.dto.CommentDTO;
+import com.example.todolist.models.Comment;
+import com.example.todolist.models.User;
+import com.example.todolist.services.CommentService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/tasks/{taskId}/comments")
+@RequiredArgsConstructor
+public class CommentController {
+    @Autowired
+    private CommentService commentService;
+
+
+    public ResponseEntity<CommentDTO> createComment(@RequestBody @Valid CommentDTO commentDTO, @PathVariable Long taskId){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        User user = null;
+
+        if (authentication != null && authentication.getPrincipal() != null) {
+            user = (User) authentication.getPrincipal();
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+
+        CommentDTO createdComment = commentService.createComment(commentDTO, user, taskId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdComment);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<CommentDTO>> getAllComments(@PathVariable Long taskId) {
+        List<CommentDTO> comments = commentService.getComments(taskId);
+        return ResponseEntity.ok(comments);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<CommentDTO> getCommentById(@PathVariable Long id) {
+        CommentDTO commentDTO = commentService.getCommentById(id);
+        if (commentDTO != null) {
+            return ResponseEntity.ok(commentDTO);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<HttpStatus> deleteComment(@PathVariable Long id) {
+        commentService.deleteComment(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    @PreAuthorize("hasRole('ADMIN') or @commentAccess.hasAccess(#id)")
+    public ResponseEntity<CommentDTO> updateComment(@PathVariable Long id, @RequestBody @Valid CommentDTO commentDTO){
+        return ResponseEntity.ok(commentService.updateComment(id, commentDTO));
+    }
+
+}
