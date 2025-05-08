@@ -13,7 +13,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import com.example.todolist.security.JwtUtil;
 import java.io.IOException;
 
-@Component
+
 public class JwtAuthorizationFilter extends OncePerRequestFilter {
 
     private final JwtUtil jwtUtil;

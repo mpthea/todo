@@ -14,15 +14,16 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-@Component
+
 public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     private AuthenticationManager authenticationManager;
     private JwtUtil jwtUtil;
 
-    public JwtAuthenticationFilter() {
+    public JwtAuthenticationFilter(AuthenticationManager authenticationManager, JwtUtil jwtUtil) {
+        super.setAuthenticationManager(authenticationManager);
+        this.jwtUtil = jwtUtil;
         setFilterProcessesUrl("/api/users/login");
     }
-
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response){
         String email = request.getParameter("email");
