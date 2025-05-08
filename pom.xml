@@ -5,7 +5,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>3.2.0</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
     <groupId>ru.todolist</groupId>
     <artifactId>ToDoList</artifactId>
@@ -20,7 +20,7 @@
         <version>6.0.0</version>
         <scope>provided</scope>
     </dependency>
-    <!-- Spring Boot -->
+
     <dependency>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter</artifactId>
@@ -63,9 +63,6 @@
         <scope>runtime</scope>
     </dependency>
 
-
-    <!-- База данных -->
-    <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
     <dependency>
         <groupId>org.postgresql</groupId>
         <artifactId>postgresql</artifactId>
@@ -73,7 +70,6 @@
     </dependency>
 
 
-    <!-- Swagger -->
     <dependency>
         <groupId>org.springdoc</groupId>
         <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
@@ -86,14 +82,12 @@
         <scope>test</scope>
     </dependency>
 
-    <!-- Spring Security Test -->
     <dependency>
         <groupId>org.springframework.security</groupId>
         <artifactId>spring-security-test</artifactId>
         <scope>test</scope>
     </dependency>
 
-    <!-- JUnit 5 -->
     <dependency>
         <groupId>org.junit.jupiter</groupId>
         <artifactId>junit-jupiter-api</artifactId>
@@ -101,19 +95,20 @@
         <scope>test</scope>
     </dependency>
 
-    <!-- Jackson для JSON -->
     <dependency>
         <groupId>com.fasterxml.jackson.core</groupId>
         <artifactId>jackson-databind</artifactId>
     </dependency>
 
-    <!-- Lombok с явным указанием версии -->
     <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
         <version>1.18.30</version>
         <scope>provided</scope>
     </dependency>
+
+
+
 
     </dependencies>
     <build>
